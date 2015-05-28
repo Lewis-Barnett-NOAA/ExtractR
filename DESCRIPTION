@@ -1,0 +1,11 @@
+Package: ExtractR
+Type: Package
+Title: Database extraction functions for NWFSC
+Version: 0.1
+Date: 2015-05-28
+Author: Allan Hicks
+Maintainer: Allan Hicks <allan.hicks@noaa.gov>
+Imports: RODBC
+Description: Some NWFSC centric databse extraction functions for FRAM databases
+License: What license is it under?
+URL: https://github.com/nwfsc-data/ExtractR
