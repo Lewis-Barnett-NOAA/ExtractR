@@ -8,9 +8,9 @@ queryDB(queryFilename, db, uid, pw = "", sp = " ", start = " ",
   end = " ", asis = FALSE)
 }
 \arguments{
-\item{queryFilename}{The filename and location of the sql query to read in and convert with \code{\link{make.query}}}
+\item{queryFilename}{The filename of the sql query to read in and convert with \code{\link{make.query}}}
 
-\item{db}{The name of your databse connection}
+\item{db}{The name of your database connection}
 
 \item{uid}{your user ID}
 

@@ -5,8 +5,8 @@
 #' @author Andi Stephens
 #' @author Allan Hicks
 #'
-#' @param queryFilename   The filename and location of the sql query to read in and convert with \code{\link{make.query}}
-#' @param db   The name of your databse connection
+#' @param queryFilename   The filename of the sql query to read in and convert with \code{\link{make.query}}
+#' @param db   The name of your database connection
 #' @param uid   your user ID
 #' @param pw    The password for the database connection. If omitted,
 #'              RODBC will prompt you for a password and will mask it.

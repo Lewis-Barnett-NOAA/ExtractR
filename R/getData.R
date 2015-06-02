@@ -18,7 +18,7 @@
 #'
 #' @export
 
-getData.fn <- function(dsn,uid,query,pw="",ais=asis) {
+getData <- function(dsn,uid,query,pw="",ais=asis) {
     ############################################################################
     # Function to extract from a database given a query
     ############################################################################
