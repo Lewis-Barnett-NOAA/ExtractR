@@ -1,36 +1,45 @@
 #' Download sql file from GitHub and save as an object in R
 #'
-#' @details Reads an sql (text) file from GitHub for use in ExtractR
+#' @details Reads an sql (text) file from GitHub or any folder for use in ExtractR
 #'
 #' @author Allan Hicks
 #'
-#' @param dsn   The name of your databse connection
-#' @param uid   Your user ID
-#' @param query The sql query as an R object
-#' @param pw    The password for the database connection. If omitted,
-#'              RODBC will prompt you for a password and will mask it.
-#'              If entered, it will be visible and unsecure.
-#' @param ais   Logical whether or not to convert columns as in \code{\link{read.table}}.
-#'              See \code{\link{RODBC::sqlQuery}}
+#' @param sqlName  The name of your sql file. This can be just the name, or a specific path and name on your computer. See Details.
+#' @param folder   The folder your sql file is in. "GitHub" refers to the specific GitHub site (nwfsc-data)
+#' @param database An additional folder specifying the database that the sql file is associated with. Can be a vector and it
+#'                   will search through these folders until it finds the sql file (if present)
+#'
+#' @details The default is to search the GitHub site for the sql file when the user enters just the name of the sql file.
+#'          If you want to use an sql file local on your computer, you can either 1) enter the name of the file and specific the folder it is in
+#'          using the folder argument, or 2) enter in the entire path with the sql file name in the sqlName argument.  For both of these cases,
+#'          the \code{database} argument should be blank
 #'
 #' @seealso \code{\link{make.query}, \link{queryDB}}, \code{\link{getMultiSpeciesCatch}}, \code{\link{RODBC::sqlQuery}}
 #'
 #' @examples
-#' getSQL(loc="https://raw.githubusercontent.com/nwfsc-data/sql/master/trawl/HaulCharacteristics.sql")
-#' loc <- "C:/NOAA205/SurveyDatabase/sql/HaulCharacteristics.sql"
+#' getSQL("HaulCharacteristics.sql") #gets the sql from GitHub by default
+#'
+#' getSQL(sqlName = "HaulCharacteristics.sql",
+#'	   folder = "C:/NOAA2015/SurveyDatabase/sql",
+#'	   database = "")
+#'
+#' getSQL("C:/NOAA2015/SurveyDatabase/sql/HaulCharacteristics.sql")
 #'
 #' @export
 
-sqlName <- "HaulCharacteristics.sql"
-folder <- "GitHub"
-database <- c("trawl","observer")
+getSQL <- function(sqlName, folder="GitHub", database=if(folder=="GitHub"){c("trawl","observer")}else{""},verbose=TRUE) {
+	#use if statement in database (and not ifelse) because ifelse would only return first element
+    database #this needs to be here to set database. Without calling it first, the if statements don't set it for some reason
 
-getSQL <- function(sqlName,folder="GitHub",database=c("trawl","observer")) {
-
-	if(folder=="GitHub") {
+	if(folder=="GitHub") {  #get from GitHub Site
 		folder <- "https://raw.githubusercontent.com/nwfsc-data/sql/master"
 	}
 	loc <- file.path(folder,database,sqlName)
+	if(substring(sqlName,2,2)==":") { #A specific path
+		folder <- ""
+		loc <- sqlName
+	}
+	if(verbose) cat("Getting sql script from",loc,"\n",sep="\n")
 
 	if(substring(folder,1,4)=="http") {
 		sqlExists <- NULL
@@ -47,4 +56,5 @@ getSQL <- function(sqlName,folder="GitHub",database=c("trawl","observer")) {
 	    }
 	    sql <- readLines(loc)
 	}
+	return(sql)
 }
