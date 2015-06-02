@@ -39,7 +39,7 @@ getSQL <- function(sqlName, folder="GitHub", database=if(folder=="GitHub"){c("tr
 		folder <- ""
 		loc <- sqlName
 	}
-	if(verbose) cat("Getting sql script from",loc,"\n",sep="\n")
+	if(verbose) {cat("Looking for sql script in",loc,"\n",sep="\n"); flush.console()}
 
 	if(substring(folder,1,4)=="http") {
 		sqlExists <- NULL
@@ -48,6 +48,7 @@ getSQL <- function(sqlName, folder="GitHub", database=if(folder=="GitHub"){c("tr
 			stop("The sqls specified,\n",paste(loc,collapse="\n"),"\ndo not exist\n")
 		}
 		loc <- loc[sqlExists]
+		if(verbose) {cat("Got sql script from",loc,"\n",sep="\n"); flush.console()}
 		sql <- RCurl::getURL(loc,.opts = list(ssl.verifypeer = FALSE))
 		sql <- readLines(textConnection(sql))
 	} else {
